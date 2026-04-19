@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>instashopper.com — Daily Deals & Discount Coupons</title>
+<meta name="description" content="instashopper.com — your daily destination for the hottest discount deals, coupon codes, and exclusive offers from top brands." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #E85D04;
+  --brand-dark: #BA4904;
+  --brand-amber: #FFBA08;
+  --brand-cream: #FFF4E0;
+  --brand-cream-2: #FFE8C2;
+  --ink: #1A120B;
+  --ink-soft: #3A2E24;
+  --muted: #7A6B5E;
+  --line: #EDE3D5;
+  --bg: #FFFBF5;
+  --white: #FFFFFF;
+  --ok: #3B6D11;
+  --err: #A32D2D;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { font-family: 'Manrope', -apple-system, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+nav { background: var(--ink); color: var(--brand-cream); padding: 14px 0; position: sticky; top: 0; z-index: 50; border-bottom: 3px solid var(--brand); }
+.nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+.logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.logo-mark { width: 42px; height: 42px; background: var(--brand); border-radius: 10px; display: flex; align-items: center; justify-content: center; transform: rotate(-5deg); box-shadow: 3px 3px 0 var(--brand-amber); }
+.logo-mark span { font-family: 'Archivo Black', sans-serif; font-size: 18px; color: var(--ink); }
+.logo-text { display: flex; flex-direction: column; line-height: 1; }
+.logo-text .name { font-family: 'Archivo Black', sans-serif; font-size: 19px; letter-spacing: -0.02em; color: var(--white); }
+.logo-text .tld { font-size: 11px; color: var(--brand-amber); letter-spacing: 0.15em; margin-top: 2px; }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.deal-ticker { font-size: 12px; color: var(--brand-cream); opacity: 0.8; display: flex; align-items: center; gap: 6px; }
+.live-dot { width: 8px; height: 8px; background: #4CD964; border-radius: 50%; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.btn-admin { background: transparent; color: var(--brand-cream); border: 1px solid var(--brand-cream); border-radius: 999px; padding: 7px 16px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .15s; }
+.btn-admin:hover { background: var(--brand-cream); color: var(--ink); }
+
+.hero { background: var(--brand); color: var(--brand-cream); padding: 70px 0 90px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; background: var(--brand-amber); border-radius: 50%; opacity: 0.5; }
+.hero::after { content: ''; position: absolute; bottom: -40px; left: 30%; width: 180px; height: 180px; background: var(--brand-dark); border-radius: 50%; opacity: 0.4; }
+.hero-content { position: relative; z-index: 2; max-width: 680px; }
+.hero-eyebrow { display: inline-block; background: var(--ink); color: var(--brand-amber); padding: 6px 14px; border-radius: 999px; font-size: 11px; letter-spacing: 0.15em; font-weight: 700; margin-bottom: 24px; text-transform: uppercase; }
+.hero h1 { font-family: 'Archivo Black', sans-serif; font-size: clamp(44px, 7vw, 88px); line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 20px; color: var(--white); }
+.hero h1 em { font-style: normal; color: var(--brand-amber); display: inline-block; transform: rotate(-2deg); }
+.hero-sub { font-size: 18px; line-height: 1.6; max-width: 520px; color: var(--brand-cream); opacity: 0.95; }
+.hero-stats { display: flex; gap: 36px; margin-top: 36px; flex-wrap: wrap; }
+.hero-stat { display: flex; flex-direction: column; }
+.hero-stat .num { font-family: 'Archivo Black', sans-serif; font-size: 36px; color: var(--brand-amber); line-height: 1; }
+.hero-stat .lbl { font-size: 12px; color: var(--brand-cream); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; opacity: 0.8; }
+
+.filters-wrap { background: var(--white); padding: 20px 0; border-bottom: 1px solid var(--line); position: sticky; top: 74px; z-index: 40; }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.filter-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-right: 8px; }
+.filter-pill { cursor: pointer; background: var(--bg); color: var(--ink-soft); border: 1.5px solid var(--line); border-radius: 999px; font-size: 13px; padding: 7px 16px; font-weight: 600; font-family: inherit; transition: all .15s; }
+.filter-pill:hover { border-color: var(--brand); color: var(--brand); }
+.filter-pill.on { background: var(--ink); color: var(--brand-amber); border-color: var(--ink); }
+
+main { padding: 40px 0 80px; }
+.section-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 30px; flex-wrap: wrap; gap: 10px; }
+.section-title { font-family: 'Archivo Black', sans-serif; font-size: 32px; letter-spacing: -0.02em; }
+.section-count { font-size: 14px; color: var(--muted); font-weight: 600; }
+.deals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.loading-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.skeleton { background: var(--white); border: 2px solid var(--line); border-radius: 16px; height: 260px; position: relative; overflow: hidden; }
+.skeleton::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,186,8,0.1), transparent); animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+.deal-card { background: var(--white); border: 2px solid var(--line); border-radius: 16px; overflow: hidden; transition: all .2s; display: flex; flex-direction: column; position: relative; }
+.deal-card:hover { transform: translateY(-3px); border-color: var(--ink); box-shadow: 6px 6px 0 var(--brand); }
+.deal-header { padding: 18px 20px 14px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; border-bottom: 1px dashed var(--line); }
+.deal-brand { flex: 1; min-width: 0; }
+.deal-category { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; padding: 3px 10px; border-radius: 999px; display: inline-block; margin-bottom: 8px; }
+.cat-Food { background: #E5F5D5; color: #3B6D11; }
+.cat-Tech { background: #DEEBFB; color: #185FA5; }
+.cat-Fashion { background: #FBE0EC; color: #993556; }
+.cat-Travel { background: #D5F0E5; color: #0F6E56; }
+.cat-Beauty { background: #FBE0EC; color: #993556; }
+.cat-Home { background: #FFE8C2; color: #854F0B; }
+.cat-Other { background: var(--line); color: var(--muted); }
+.deal-brand-name { font-family: 'Archivo Black', sans-serif; font-size: 20px; letter-spacing: -0.01em; line-height: 1.1; }
+.deal-discount { font-family: 'Archivo Black', sans-serif; font-size: 24px; color: var(--brand); line-height: 1; text-align: right; transform: rotate(-3deg); flex-shrink: 0; letter-spacing: -0.02em; }
+.deal-body { padding: 16px 20px 20px; display: flex; flex-direction: column; flex: 1; gap: 14px; }
+.deal-desc { font-size: 14px; line-height: 1.55; color: var(--ink-soft); flex: 1; }
+.coupon-row { display: flex; align-items: center; gap: 10px; }
+.coupon-code { flex: 1; background: var(--brand-cream); border: 2px dashed var(--brand); border-radius: 8px; padding: 10px 14px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 14px; color: var(--brand-dark); letter-spacing: 0.08em; text-align: center; cursor: pointer; transition: all .15s; user-select: all; }
+.coupon-code:hover { background: var(--brand-cream-2); }
+.coupon-code.copied { background: #E5F5D5; border-color: var(--ok); color: var(--ok); }
+.deal-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 4px; }
+.expiry { font-size: 12px; color: var(--muted); font-weight: 600; display: flex; align-items: center; gap: 5px; }
+.expiry.urgent { color: var(--err); }
+.btn-get { background: var(--ink); color: var(--brand-amber); border: none; border-radius: 8px; font-size: 13px; font-weight: 700; padding: 9px 16px; text-decoration: none; cursor: pointer; font-family: inherit; letter-spacing: 0.02em; transition: all .15s; }
+.btn-get:hover { background: var(--brand); color: var(--white); }
+.ai-badge { position: absolute; top: 12px; right: 12px; background: var(--ink); color: var(--brand-amber); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; padding: 3px 8px; border-radius: 999px; text-transform: uppercase; z-index: 2; }
+
+.empty-state { text-align: center; padding: 80px 20px; background: var(--white); border: 2px dashed var(--line); border-radius: 16px; }
+.empty-state .emoji { font-size: 48px; margin-bottom: 16px; display: block; }
+.empty-state h3 { font-family: 'Archivo Black', sans-serif; font-size: 22px; margin-bottom: 8px; }
+.empty-state p { color: var(--muted); font-size: 14px; }
+
+footer { background: var(--ink); color: var(--brand-cream); padding: 40px 0 30px; margin-top: 60px; }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+.footer-brand { font-family: 'Archivo Black', sans-serif; font-size: 16px; color: var(--brand-amber); }
+.footer-meta { font-size: 12px; opacity: 0.6; }
+
+.modal-backdrop { position: fixed; inset: 0; background: rgba(26, 18, 11, 0.7); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; backdrop-filter: blur(4px); }
+.modal-backdrop.open { display: flex; }
+.modal { background: var(--white); border-radius: 20px; width: 100%; max-width: 620px; max-height: 90vh; overflow-y: auto; border: 3px solid var(--ink); box-shadow: 10px 10px 0 var(--brand); }
+.modal-header { padding: 20px 24px; border-bottom: 2px solid var(--line); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: var(--white); z-index: 2; }
+.modal-title { font-family: 'Archivo Black', sans-serif; font-size: 20px; letter-spacing: -0.01em; }
+.modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--muted); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+.modal-close:hover { background: var(--line); color: var(--ink); }
+.modal-body { padding: 24px; }
+
+.form-row { margin-bottom: 14px; }
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 5px; }
+input[type="text"], input[type="number"], input[type="password"], input[type="url"], textarea, select { width: 100%; background: var(--bg); border: 1.5px solid var(--line); border-radius: 8px; padding: 10px 14px; font-size: 14px; color: var(--ink); font-family: inherit; transition: border-color .15s; }
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--brand); }
+.btn-primary { background: var(--brand); color: var(--white); border: none; border-radius: 8px; font-size: 14px; font-weight: 700; padding: 12px 24px; cursor: pointer; font-family: inherit; transition: all .15s; letter-spacing: 0.02em; }
+.btn-primary:hover { background: var(--brand-dark); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-secondary { background: transparent; color: var(--ink); border: 1.5px solid var(--line); border-radius: 8px; font-size: 13px; font-weight: 600; padding: 8px 16px; cursor: pointer; font-family: inherit; }
+.btn-secondary:hover { border-color: var(--ink); }
+.btn-danger { background: transparent; color: var(--err); border: 1.5px solid var(--line); border-radius: 6px; font-size: 12px; font-weight: 600; padding: 5px 12px; cursor: pointer; font-family: inherit; }
+.btn-danger:hover { background: var(--err); color: var(--white); border-color: var(--err); }
+
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: var(--brand-cream); border-radius: 12px; padding: 16px; border: 2px solid var(--brand-cream-2); }
+.stat-card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 700; margin-bottom: 6px; }
+.stat-card .value { font-family: 'Archivo Black', sans-serif; font-size: 28px; color: var(--ink); }
+.ai-box { background: var(--ink); color: var(--brand-cream); border-radius: 14px; padding: 20px; margin-bottom: 24px; }
+.ai-box-title { font-family: 'Archivo Black', sans-serif; font-size: 18px; color: var(--brand-amber); margin-bottom: 4px; letter-spacing: -0.01em; }
+.ai-box-sub { font-size: 13px; opacity: 0.8; margin-bottom: 14px; line-height: 1.5; }
+.ai-box .btn-primary { background: var(--brand-amber); color: var(--ink); }
+.ai-box .btn-primary:hover { background: var(--white); }
+.ai-status { font-size: 12px; margin-top: 12px; opacity: 0.9; }
+
+.admin-section-title { font-family: 'Archivo Black', sans-serif; font-size: 16px; margin-bottom: 14px; letter-spacing: -0.01em; }
+.admin-deal-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--bg); border-radius: 10px; margin-bottom: 8px; border: 1px solid var(--line); }
+.admin-deal-row.expired { opacity: 0.5; }
+.admin-deal-info { flex: 1; min-width: 0; }
+.admin-deal-head { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; flex-wrap: wrap; }
+.admin-deal-brand { font-weight: 700; font-size: 14px; }
+.admin-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: var(--brand-cream); color: var(--brand-dark); text-transform: uppercase; letter-spacing: 0.05em; }
+.admin-tag.ai { background: var(--ink); color: var(--brand-amber); }
+.admin-deal-desc { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.expired-tag { font-size: 10px; color: var(--err); font-weight: 700; text-transform: uppercase; }
+
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--ink); color: var(--brand-amber); padding: 12px 24px; border-radius: 999px; font-size: 14px; font-weight: 600; box-shadow: 0 10px 40px rgba(0,0,0,0.2); transition: transform .25s; z-index: 200; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+.msg { font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-top: 10px; display: none; }
+.msg.show { display: block; }
+.msg.success { background: #E5F5D5; color: var(--ok); }
+.msg.error { background: #FBE5E5; color: var(--err); }
+
+@media (max-width: 640px) {
+  .form-grid-3 { grid-template-columns: 1fr; }
+  .form-grid-2 { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .hero { padding: 50px 0 70px; }
+  .section-title { font-size: 26px; }
+  .filters-wrap { position: static; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <div class="logo" onclick="goHome()">
+      <div class="logo-mark"><span>iS</span></div>
+      <div class="logo-text">
+        <span class="name">instashopper</span>
+        <span class="tld">.COM</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <span class="deal-ticker"><span class="live-dot"></span><span id="nav-deal-count">Loading…</span></span>
+      <button class="btn-admin" onclick="openAdmin()">Admin</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container hero-content">
+    <span class="hero-eyebrow">★ Updated daily</span>
+    <h1>Hot deals.<br>Real savings.<br><em>Every day.</em></h1>
+    <p class="hero-sub">The best discount codes and flash deals from top brands — curated fresh each morning. Copy, click, save.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num" id="stat-hero-deals">—</span><span class="lbl">Live Deals</span></div>
+      <div class="hero-stat"><span class="num" id="stat-hero-savings">—</span><span class="lbl">Max Savings</span></div>
+      <div class="hero-stat"><span class="num" id="stat-hero-cats">—</span><span class="lbl">Categories</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="filters-wrap">
+  <div class="container filters">
+    <span class="filter-label">Browse:</span>
+    <button class="filter-pill on" data-cat="All" onclick="setFilter(this)">All Deals</button>
+    <button class="filter-pill" data-cat="Food" onclick="setFilter(this)">Food</button>
+    <button class="filter-pill" data-cat="Tech" onclick="setFilter(this)">Tech</button>
+    <button class="filter-pill" data-cat="Fashion" onclick="setFilter(this)">Fashion</button>
+    <button class="filter-pill" data-cat="Travel" onclick="setFilter(this)">Travel</button>
+    <button class="filter-pill" data-cat="Beauty" onclick="setFilter(this)">Beauty</button>
+    <button class="filter-pill" data-cat="Home" onclick="setFilter(this)">Home</button>
+  </div>
+</div>
+
+<main>
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title" id="section-title">Today's Hottest Deals</h2>
+      <span class="section-count" id="section-count">Loading…</span>
+    </div>
+    <div id="loading" class="loading-grid">
+      <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+    </div>
+    <div id="deals-grid" class="deals-grid" style="display:none"></div>
+    <div id="empty-state" class="empty-state" style="display:none">
+      <span class="emoji">🏷️</span>
+      <h3>No deals yet</h3>
+      <p>The admin can add some from the dashboard, or let the AI fetch today's best.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>
+      <span class="footer-brand">instashopper.com</span>
+      <span class="footer-meta"> · Your daily deals companion</span>
+    </div>
+    <div class="footer-meta">© <span id="year"></span> instashopper.com · Deals updated daily.</div>
+  </div>
+</footer>
+
+<!-- LOGIN MODAL -->
+<div class="modal-backdrop" id="login-modal">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header">
+      <span class="modal-title">Admin Sign In</span>
+      <button class="modal-close" onclick="closeLogin()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label>Username</label>
+        <input type="text" id="user-input" placeholder="admin" value="admin" />
+      </div>
+      <div class="form-row">
+        <label>Password</label>
+        <input type="password" id="pwd-input" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')tryLogin()" />
+      </div>
+      <div class="msg error" id="login-err">Invalid credentials.</div>
+      <div style="margin-top:16px">
+        <button class="btn-primary" onclick="tryLogin()" id="login-btn">Sign In</button>
+      </div>
+      <div style="margin-top:18px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.6">
+        Set <code style="background:var(--brand-cream);padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace">ADMIN_USERNAME</code> and <code style="background:var(--brand-cream);padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace">ADMIN_PASSWORD</code> as environment variables on your server.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN MODAL -->
+<div class="modal-backdrop" id="admin-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Admin Dashboard</span>
+      <div style="display:flex;gap:8px">
+        <button class="btn-secondary" onclick="logout()">Sign out</button>
+        <button class="modal-close" onclick="closeAdmin()">×</button>
+      </div>
+    </div>
+    <div class="modal-body">
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="label">Total</div><div class="value" id="s-total">0</div></div>
+        <div class="stat-card"><div class="label">Active</div><div class="value" id="s-active">0</div></div>
+        <div class="stat-card"><div class="label">Categories</div><div class="value" id="s-cats">0</div></div>
+      </div>
+
+      <div class="ai-box">
+        <div class="ai-box-title">AI Deal Fetcher</div>
+        <div class="ai-box-sub">Claude AI searches the web for today's best deals and adds them automatically. A daily cron job also runs this automatically — use the button for on-demand refreshes.</div>
+        <button class="btn-primary" id="ai-btn" onclick="aiFetch()">Fetch deals now</button>
+        <div class="ai-status" id="ai-msg"></div>
+      </div>
+
+      <div class="admin-section-title">Add a new deal</div>
+      <div style="background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:18px;margin-bottom:24px">
+        <div class="form-grid-2">
+          <div><label>Brand / Store</label><input type="text" id="f-brand" placeholder="e.g. Nike" /></div>
+          <div><label>Discount</label><input type="text" id="f-disc" placeholder="e.g. 40% OFF" /></div>
+        </div>
+        <div class="form-row"><label>Description</label><input type="text" id="f-desc" placeholder="What does the deal include?" /></div>
+        <div class="form-grid-3">
+          <div><label>Coupon code</label><input type="text" id="f-code" placeholder="SAVE40" /></div>
+          <div><label>Category</label>
+            <select id="f-cat">
+              <option>Food</option><option>Tech</option><option>Fashion</option>
+              <option>Travel</option><option>Beauty</option><option>Home</option><option>Other</option>
+            </select>
+          </div>
+          <div><label>Expires (days)</label><input type="number" id="f-days" value="3" min="1" max="30" /></div>
+        </div>
+        <div class="form-row"><label>Link (optional)</label><input type="url" id="f-link" placeholder="https://..." /></div>
+        <button class="btn-primary" onclick="addDeal()">Add deal</button>
+        <div class="msg success" id="add-msg">Deal added!</div>
+      </div>
+
+      <div class="admin-section-title">All deals (<span id="admin-total">0</span>)</div>
+      <div id="admin-list"></div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+const API = '/api';
+const TOKEN_KEY = 'instashopper_token';
+
+let deals = [];
+let filter = 'All';
+let token = localStorage.getItem(TOKEN_KEY) || null;
+
+// ========== UTILS ==========
+function expired(d) { return new Date() > new Date(d.expiresAt); }
+function daysLeft(d) { return Math.max(0, Math.ceil((new Date(d.expiresAt) - new Date()) / 86400000)); }
+function escapeHtml(s) { if (!s) return ''; return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000); }
+
+async function apiGet(path) {
+  const res = await fetch(API + path, { headers: token ? { Authorization: 'Bearer ' + token } : {} });
+  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'Request failed');
+  return res.json();
+}
+async function apiPost(path, body) {
+  const res = await fetch(API + path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
+    body: JSON.stringify(body || {})
+  });
+  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'Request failed');
+  return res.json();
+}
+async function apiDelete(path) {
+  const res = await fetch(API + path, { method: 'DELETE', headers: token ? { Authorization: 'Bearer ' + token } : {} });
+  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'Delete failed');
+  return res.json();
+}
+
+// ========== LOAD & RENDER ==========
+async function loadDeals() {
+  try {
+    deals = await apiGet('/deals');
+    render();
+  } catch (e) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('section-count').textContent = 'Error';
+    document.getElementById('empty-state').innerHTML = '<span class="emoji">⚠️</span><h3>Couldn\'t load deals</h3><p>' + escapeHtml(e.message) + '</p>';
+    document.getElementById('empty-state').style.display = 'block';
+  }
+}
+
+function render() {
+  document.getElementById('loading').style.display = 'none';
+  const active = deals.filter(d => !expired(d));
+  const visible = active.filter(d => filter === 'All' || d.category === filter);
+  const cats = new Set(active.map(d => d.category));
+
+  document.getElementById('nav-deal-count').textContent = active.length + ' live deal' + (active.length !== 1 ? 's' : '');
+  document.getElementById('stat-hero-deals').textContent = active.length;
+  document.getElementById('stat-hero-cats').textContent = cats.size;
+  const top = [...active].sort((a,b) => b.discountNum - a.discountNum)[0];
+  document.getElementById('stat-hero-savings').textContent = top ? top.discount : '—';
+  document.getElementById('section-title').textContent = filter === 'All' ? "Today's Hottest Deals" : filter + ' Deals';
+  document.getElementById('section-count').textContent = visible.length + ' deal' + (visible.length !== 1 ? 's' : '');
+
+  const grid = document.getElementById('deals-grid');
+  const empty = document.getElementById('empty-state');
+  if (visible.length === 0) { grid.style.display = 'none'; empty.style.display = 'block'; return; }
+  grid.style.display = 'grid'; empty.style.display = 'none';
+
+  grid.innerHTML = visible.map(d => {
+    const dl = daysLeft(d);
+    const urgent = dl <= 1;
+    return `
+      <article class="deal-card">
+        ${d.source === 'ai' ? '<span class="ai-badge">AI</span>' : ''}
+        <div class="deal-header">
+          <div class="deal-brand">
+            <span class="deal-category cat-${d.category}">${d.category}</span>
+            <div class="deal-brand-name">${escapeHtml(d.brand)}</div>
+          </div>
+          <div class="deal-discount">${escapeHtml(d.discount)}</div>
+        </div>
+        <div class="deal-body">
+          <p class="deal-desc">${escapeHtml(d.description)}</p>
+          ${d.code ? `<div class="coupon-row"><div class="coupon-code" onclick="copyCode('${escapeHtml(d.code)}', this)">${escapeHtml(d.code)}</div></div>` : ''}
+          <div class="deal-footer">
+            <span class="expiry ${urgent ? 'urgent' : ''}">${urgent ? '⚡' : '⏱'} ${dl}d left</span>
+            ${d.link ? `<a class="btn-get" href="${escapeHtml(d.link)}" target="_blank" rel="noopener">Get deal →</a>` : ''}
+          </div>
+        </div>
+      </article>`;
+  }).join('');
+}
+
+function setFilter(btn) {
+  filter = btn.dataset.cat;
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  render();
+}
+
+function copyCode(code, el) {
+  navigator.clipboard?.writeText(code).catch(() => {});
+  el.classList.add('copied');
+  const orig = el.textContent;
+  el.textContent = '✓ COPIED';
+  showToast('Code copied: ' + code);
+  setTimeout(() => { el.classList.remove('copied'); el.textContent = orig; }, 1800);
+}
+
+function goHome() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+// ========== AUTH ==========
+async function openAdmin() {
+  if (token) {
+    try {
+      await apiGet('/admin/me');
+      document.getElementById('admin-modal').classList.add('open');
+      await updateAdmin();
+      return;
+    } catch {
+      token = null; localStorage.removeItem(TOKEN_KEY);
+    }
+  }
+  document.getElementById('login-modal').classList.add('open');
+  setTimeout(() => document.getElementById('pwd-input').focus(), 100);
+}
+function closeLogin() { document.getElementById('login-modal').classList.remove('open'); }
+function closeAdmin() { document.getElementById('admin-modal').classList.remove('open'); }
+
+async function tryLogin() {
+  const btn = document.getElementById('login-btn');
+  const err = document.getElementById('login-err');
+  err.classList.remove('show');
+  btn.disabled = true; btn.textContent = 'Signing in…';
+  try {
+    const username = document.getElementById('user-input').value.trim();
+    const password = document.getElementById('pwd-input').value;
+    const res = await apiPost('/admin/login', { username, password });
+    token = res.token;
+    localStorage.setItem(TOKEN_KEY, token);
+    document.getElementById('pwd-input').value = '';
+    closeLogin();
+    document.getElementById('admin-modal').classList.add('open');
+    await updateAdmin();
+  } catch (e) {
+    err.textContent = e.message || 'Invalid credentials.';
+    err.classList.add('show');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Sign In';
+  }
+}
+
+function logout() { token = null; localStorage.removeItem(TOKEN_KEY); closeAdmin(); }
+
+// ========== ADMIN ==========
+async function updateAdmin() {
+  try {
+    const all = await apiGet('/admin/deals');
+    const active = all.filter(d => !expired(d));
+    const cats = new Set(all.map(d => d.category));
+    document.getElementById('s-total').textContent = all.length;
+    document.getElementById('s-active').textContent = active.length;
+    document.getElementById('s-cats').textContent = cats.size;
+    document.getElementById('admin-total').textContent = all.length;
+
+    const list = document.getElementById('admin-list');
+    if (all.length === 0) {
+      list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">No deals yet. Add one above or use AI fetch.</div>';
+      return;
+    }
+    list.innerHTML = all.map(d => {
+      const exp = expired(d);
+      return `
+        <div class="admin-deal-row ${exp ? 'expired' : ''}">
+          <div class="admin-deal-info">
+            <div class="admin-deal-head">
+              <span class="admin-deal-brand">${escapeHtml(d.brand)}</span>
+              <span class="admin-tag">${escapeHtml(d.discount)}</span>
+              <span class="admin-tag" style="background:var(--line);color:var(--muted)">${d.category}</span>
+              ${d.source === 'ai' ? '<span class="admin-tag ai">AI</span>' : ''}
+              ${exp ? '<span class="expired-tag">Expired</span>' : ''}
+            </div>
+            <div class="admin-deal-desc">${escapeHtml(d.description)}</div>
+          </div>
+          <button class="btn-danger" onclick="delDeal(${d.id})">Delete</button>
+        </div>`;
+    }).join('');
+  } catch (e) {
+    alert('Load failed: ' + e.message);
+  }
+}
+
+async function addDeal() {
+  const brand = document.getElementById('f-brand').value.trim();
+  const discount = document.getElementById('f-disc').value.trim();
+  const description = document.getElementById('f-desc').value.trim();
+  if (!brand || !discount || !description) { alert('Please fill brand, discount, and description.'); return; }
+  try {
+    await apiPost('/admin/deals', {
+      brand, discount, description,
+      code: document.getElementById('f-code').value.trim(),
+      category: document.getElementById('f-cat').value,
+      link: document.getElementById('f-link').value.trim(),
+      expiryDays: parseInt(document.getElementById('f-days').value) || 3
+    });
+    ['f-brand','f-disc','f-desc','f-code','f-link'].forEach(id => document.getElementById(id).value = '');
+    const msg = document.getElementById('add-msg');
+    msg.classList.add('show'); setTimeout(() => msg.classList.remove('show'), 2500);
+    await loadDeals();
+    await updateAdmin();
+  } catch (e) { alert('Add failed: ' + e.message); }
+}
+
+async function delDeal(id) {
+  if (!confirm('Delete this deal?')) return;
+  try {
+    await apiDelete('/admin/deals/' + id);
+    await loadDeals();
+    await updateAdmin();
+  } catch (e) { alert('Delete failed: ' + e.message); }
+}
+
+async function aiFetch() {
+  const btn = document.getElementById('ai-btn');
+  const msg = document.getElementById('ai-msg');
+  btn.disabled = true; btn.textContent = 'Searching…';
+  msg.textContent = 'Claude is searching the web for today\'s best deals…';
+  try {
+    const res = await apiPost('/admin/fetch-deals', {});
+    msg.textContent = res.ok ? `✓ Added ${res.added} new deals!` : `⚠ ${res.error || 'No deals found'}`;
+    await loadDeals();
+    await updateAdmin();
+  } catch (e) {
+    msg.textContent = '✗ ' + (e.message || 'Fetch failed');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Fetch deals now';
+  }
+}
+
+// ========== INIT ==========
+document.getElementById('year').textContent = new Date().getFullYear();
+loadDeals();
+
+document.querySelectorAll('.modal-backdrop').forEach(bd => {
+  bd.addEventListener('click', e => { if (e.target === bd) bd.classList.remove('open'); });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-backdrop.open').forEach(m => m.classList.remove('open'));
+});
+</script>
+
+</body>
+</html>
