@@ -164,6 +164,7 @@ Each AI fetch costs a few cents in Anthropic API credits (web search + generatio
 | `JWT_SECRET` | yes | For signing auth tokens |
 | `CRON_SECRET` | yes | Protects the cron endpoint |
 | `ANTHROPIC_API_KEY` | for AI | Claude API key |
+| `CLAUDE_MODEL` | no | Model to use (default `claude-haiku-4-5-20251001`) |
 | `PUBLIC_URL` | for cron | Your public Railway URL |
 | `PORT` | auto | Server port (Railway sets this) |
 

@@ -10,6 +10,7 @@ export async function fetchDealsFromAI() {
   }
 
   const client = new Anthropic({ apiKey });
+  const model = process.env.CLAUDE_MODEL || 'claude-haiku-4-5-20251001';
 
   const prompt = `Search the web for today's active discount deals and coupons from major US retailers.
 Find 6 to 8 real, currently active deals available right now.
@@ -30,11 +31,11 @@ Example format:
 
 Return the JSON array now:`;
 
-  console.log('[fetchDeals] Calling Claude with web search...');
+  console.log('[fetchDeals] Calling Claude (' + model + ') with web search...');
 
   try {
     const response = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
+      model,
       max_tokens: 3000,
       tools: [{ type: 'web_search_20250305', name: 'web_search' }],
       messages: [{ role: 'user', content: prompt }]
